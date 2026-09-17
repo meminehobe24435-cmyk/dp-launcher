@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 121" width="66" height="121">
+  <!-- Netflix mark: two full-height legs plus the mid diagonal, in both of its reds. -->
+  <path fill="#E50914" d="M0 0h22v121H0z"/>
+  <path fill="#E50914" d="M44 0h22v121H44z"/>
+  <path fill="#E50914" d="M12 0h12L12 121H0z"/>
+  <path fill="#B1060F" d="M24 0h20L32 121H12z"/>
+</svg>

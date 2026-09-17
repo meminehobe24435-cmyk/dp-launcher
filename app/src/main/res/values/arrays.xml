@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Apps pinned to the home row, in display order. This is what makes the reference home row
+      show Netflix, YouTube, Google Play and Chrome: the row is curated, not alphabetical.
+      Any package that is not installed is skipped and the row is filled from the rest of the
+      installed apps.
+    -->
+    <string-array name="featured_packages" translatable="false">
+        <item>com.netflix.ninja</item>
+        <item>com.netflix.mediaclient</item>
+        <item>com.google.android.youtube</item>
+        <item>com.google.android.youtube.tv</item>
+        <item>com.android.vending</item>
+        <item>com.android.chrome</item>
+    </string-array>
+
+    <!--
+      Vendor hooks. Every entry is tried in order and the first one that can be started wins;
+      "|" separates alternatives inside one entry. See SystemActionRouter for the syntax.
+      Porting the launcher to another projector = editing these four arrays.
+    -->
+    <string-array name="keystone_intents" translatable="false">
+        <item>action:com.android.settings.KEYSTONE</item>
+        <item>component:com.android.settings/.deviceinfo.KeystoneActivity</item>
+        <item>action:com.vendor.projector.action.KEYSTONE</item>
+    </string-array>
+
+    <string-array name="miracast_intents" translatable="false">
+        <item>action:android.settings.CAST_SETTINGS</item>
+        <item>component:com.android.settings/.wfd.WifiDisplaySettingsActivity</item>
+        <item>action:com.vendor.projector.action.MIRACAST</item>
+    </string-array>
+
+    <string-array name="signal_source_intents" translatable="false">
+        <item>action:com.android.tv.action.INPUT_SELECT</item>
+        <item>component:com.android.tv.settings/.input.InputsActivity</item>
+        <item>action:com.android.settings.SOURCE_SELECT</item>
+    </string-array>
+
+    <string-array name="settings_intents" translatable="false">
+        <item>action:android.settings.SETTINGS</item>
+    </string-array>
+</resources>

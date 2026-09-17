@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Wi-Fi, 3/4: the outermost arc is dimmed. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="38dp"
+    android:height="20dp"
+    android:viewportWidth="38"
+    android:viewportHeight="20">
+    <path
+        android:pathData="M2,18 A17,17 0 0 1 36,18"
+        android:strokeAlpha="0.45"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3.4" />
+    <path
+        android:pathData="M8,18 A11,11 0 0 1 30,18"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3.4" />
+    <path
+        android:pathData="M13.5,18 A5.5,5.5 0 0 1 24.5,18"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3.4" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M19,17.5 m-2.2,0 a2.2,2.2 0 1,0 4.4,0 a2.2,2.2 0 1,0 -4.4,0" />
+</vector>

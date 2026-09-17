@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DP Launcher · 1:1 preview</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="launcher.css">
+</head>
+<body>
+  <!--
+    1280x720 = the reference design canvas. tokens.css is generated from the Android
+    DesignSpec, so this page renders exactly what the app renders on the projector.
+  -->
+  <div class="screen" id="screen">
+    <div class="launch-flash"></div>
+
+    <div class="status-bar">
+      <img class="status-pointer" src="assets/pointer.svg" alt="pointer device connected">
+      <img class="status-wifi" src="assets/wifi-4.svg" alt="wi-fi signal">
+      <span class="status-time" id="clock">8:08 AM</span>
+      <span class="status-date" id="date">Saturday,November 11</span>
+    </div>
+
+    <div class="card-row" id="card-row"></div>
+
+    <div class="dock-row" id="dock-row"></div>
+
+    <div class="drawer" id="drawer">
+      <div class="drawer-header">
+        <span class="drawer-title">全部应用 · All Apps</span>
+        <span class="drawer-count" id="drawer-count"></span>
+      </div>
+      <div class="drawer-grid" id="drawer-grid"></div>
+      <div class="drawer-hint">方向键移动 · OK 打开 · 上键 / 返回键回到桌面</div>
+    </div>
+  </div>
+
+  <script src="launcher.js"></script>
+</body>
+</html>

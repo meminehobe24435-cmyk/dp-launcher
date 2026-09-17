@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  One home card plus its reflection. The ReflectionContainer mirrors whatever the card renders,
+  which is why the card is a child view and not a background drawable.
+-->
+<com.dp.launcher.ui.widget.ReflectionContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.dp.launcher.ui.widget.AppCardView
+        android:id="@+id/card_plate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/card_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/card_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@color/card_label"
+            android:textSize="35px" />
+    </com.dp.launcher.ui.widget.AppCardView>
+
+</com.dp.launcher.ui.widget.ReflectionContainer>

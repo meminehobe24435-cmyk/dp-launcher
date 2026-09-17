@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Wallpaper / window background sampled from the reference screenshot (#0200FB). -->
+    <color name="wallpaper_blue">#FF0200FB</color>
+
+    <!-- Text colours: the reference design uses white on the cards and light cyan in the dock. -->
+    <color name="card_label">#FFFFFFFF</color>
+    <color name="dock_label">#FFC6F5FF</color>
+    <color name="status_text">#FFFFFFFF</color>
+
+    <!-- App drawer: the wallpaper stays visible, slightly darkened, behind the grid. -->
+    <color name="drawer_scrim">#E60200FB</color>
+    <color name="drawer_hint">#B3FFFFFF</color>
+</resources>

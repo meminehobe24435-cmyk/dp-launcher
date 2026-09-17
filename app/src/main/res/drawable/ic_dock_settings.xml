@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings: an eight-tooth gear outline with a large centre hole. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="70dp"
+    android:height="64dp"
+    android:viewportWidth="70"
+    android:viewportHeight="64">
+    <path
+        android:pathData="M28.3,1.7 L41.7,1.7 L43.4,11.7 L51.7,5.9 L61.1,15.3 L55.3,23.6 L65.3,25.3 L65.3,38.7 L55.3,40.4 L61.1,48.7 L51.7,58.1 L43.4,52.3 L41.7,62.3 L28.3,62.3 L26.6,52.3 L18.3,58.1 L8.9,48.7 L14.7,40.4 L4.7,38.7 L4.7,25.3 L14.7,23.6 L8.9,15.3 L18.3,5.9 L26.6,11.7 Z"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineJoin="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M35,21 A11,11 0 1 0 35,43 A11,11 0 1 0 35,21 Z"
+        android:strokeColor="#C8F6FF"
+        android:strokeWidth="3" />
+</vector>

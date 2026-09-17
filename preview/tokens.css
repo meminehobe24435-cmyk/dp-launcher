@@ -1,0 +1,56 @@
+/*
+ * GENERATED FILE - do not edit by hand.
+ * Source: app/src/main/java/com/dp/launcher/ui/DesignSpec.kt
+ * Regenerate with: python tools/export_tokens.py
+ */
+:root {
+  --ds-reference-width: 1280px;
+  --ds-reference-height: 720px;
+  --ds-status-center-y: 71px;
+  --ds-status-end-margin: 116px;
+  --ds-status-item-gap: 16px;
+  --ds-status-icon-height: 20px;
+  --ds-status-pointer-width: 36px;
+  --ds-status-pointer-height: 18px;
+  --ds-status-wifi-width: 34px;
+  --ds-status-wifi-height: 18px;
+  --ds-status-text-size: 27px;
+  --ds-status-text-nudge: 3px;
+  --ds-card-row-top: 134px;
+  --ds-card-width: 250px;
+  --ds-card-height: 296px;
+  --ds-card-gap: 12px;
+  --ds-home-row-width: 1036px;
+  --ds-card-corner-radius: 18px;
+  --ds-card-icon-size: 140px;
+  --ds-card-icon-offset-y: 0px;
+  --ds-card-label-size: 35px;
+  --ds-card-label-bottom-margin: 18px;
+  --ds-card-focus-scale: 1.06;
+  --ds-focus-ring-width: 3px;
+  --ds-reflection-height: 50px;
+  --ds-reflection-alpha: 0.6;
+  --ds-dock-row-top: 516px;
+  --ds-dock-item-width: 200px;
+  --ds-dock-item-height: 123px;
+  --ds-dock-item-gap: 10px;
+  --ds-dock-row-width: 1040px;
+  --ds-dock-item-radius: 16px;
+  --ds-dock-caption-ratio: 0.3;
+  --ds-dock-icon-height: 64px;
+  --ds-dock-label-size: 25px;
+  --ds-dock-focus-scale: 1.17;
+  --ds-dock-border-width: 2px;
+  --ds-drawer-scrim-color: rgba(2, 0, 251, 1.000);
+  --ds-drawer-title-size: 32px;
+  --ds-drawer-top: 96px;
+  --ds-drawer-title-top: 34px;
+  --ds-drawer-hint-bottom: 26px;
+  --ds-drawer-grid-columns: 6;
+  --ds-drawer-grid-item-width: 186px;
+  --ds-drawer-grid-item-height: 168px;
+  --ds-drawer-grid-icon-size: 88px;
+  --ds-drawer-grid-label-size: 24px;
+  --ds-drawer-hint-size: 20px;
+  --ds-drawer-horizontal-padding: 80px;
+}

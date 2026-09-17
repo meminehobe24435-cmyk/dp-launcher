@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- My Apps: the tilted bag with the smile-shaped handle, traced from the reference screenshot. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="70dp"
+    android:height="64dp"
+    android:viewportWidth="70"
+    android:viewportHeight="64">
+    <path
+        android:pathData="M21,7 L49,7 L58,57 L12,57 Z"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineJoin="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M26,21 A9,9 0 0 0 44,21"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+</vector>

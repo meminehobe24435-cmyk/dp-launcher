@@ -1,0 +1,14 @@
+{
+  "name": "dp-launcher-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline tooling for the DP Launcher demo: renders the 1:1 HTML preview with headless Chrome and records the demo video.",
+  "type": "module",
+  "scripts": {
+    "capture": "node tools/capture_video.mjs",
+    "preview": "node tools/serve_preview.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}

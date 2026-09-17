@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dock labels stay in English: they are the feature names shown on the projector UI. -->
+    <string name="status_pointer_indicator">已连接指针设备</string>
+    <string name="status_wifi_indicator">Wi-Fi 信号</string>
+
+    <string name="drawer_title">全部应用</string>
+    <string name="drawer_hint">方向键移动 · OK 打开 · 上键/返回键回到桌面</string>
+    <plurals name="drawer_app_count">
+        <item quantity="other">%d 个应用</item>
+    </plurals>
+
+    <string name="action_unavailable">此功能在当前设备上不可用</string>
+    <string name="app_launch_failed">无法打开该应用</string>
+</resources>

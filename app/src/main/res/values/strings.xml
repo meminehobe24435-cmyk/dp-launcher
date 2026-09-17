@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DP Launcher</string>
+
+    <!-- Bottom dock -->
+    <string name="dock_keystone">Keystone</string>
+    <string name="dock_miracast">Miracast</string>
+    <string name="dock_signal_source">Signal Source</string>
+    <string name="dock_my_apps">My Apps</string>
+    <string name="dock_settings">Settings</string>
+
+    <!-- Status bar -->
+    <string name="status_pointer_indicator">Pointer device connected</string>
+    <string name="status_wifi_indicator">Wi-Fi signal</string>
+    <string name="status_time_placeholder">8:08 AM</string>
+    <string name="status_date_placeholder">Saturday,November 11</string>
+
+    <!-- App drawer -->
+    <string name="drawer_title">All Apps</string>
+    <string name="drawer_hint">D-pad: move  ·  OK: open  ·  UP/BACK: back to home</string>
+    <plurals name="drawer_app_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
+
+    <!-- Feedback -->
+    <string name="action_unavailable">This function is not available on this device</string>
+    <string name="app_launch_failed">Could not open this app</string>
+</resources>

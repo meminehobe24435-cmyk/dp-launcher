@@ -1,0 +1,414 @@
+/*
+ * 1:1 preview of the launcher home screen.
+ *
+ * Every geometry value comes from tokens.css, which is generated from the Kotlin source
+ * (app/src/main/java/com/dp/launcher/ui/DesignSpec.kt), so this page and the Android build
+ * cannot drift apart. Colours are the ones sampled from the reference screenshot.
+ */
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('assets/fonts/roboto-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('assets/fonts/roboto-500.woff2') format('woff2');
+}
+
+:root {
+  --wallpaper: #0200fb;
+  --dock-plate: #1380e7;
+  --dock-caption: #3496e7;
+  --dock-caption-edge: #2c9bf4;
+  --dock-border: #3a76f4;
+  --dock-icon: #c8f6ff;
+  /* Sampled from the reference: the dock labels are light cyan, not pure white. */
+  --label: #ffffff;
+  --dock-label-color: #c6f5ff;
+
+  /* Vertical metrics of Roboto: used so the CSS line boxes match the Android text layout. */
+  --line-ratio: 1.171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #06061a;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+.screen {
+  position: relative;
+  width: var(--ds-reference-width);
+  height: var(--ds-reference-height);
+  background: var(--wallpaper);
+  overflow: hidden;
+  font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+  color: var(--label);
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: center center;
+  user-select: none;
+}
+
+/* ------------------------------------------------------------------ status bar */
+
+.status-bar {
+  position: absolute;
+  top: calc(var(--ds-status-center-y) - 20px);
+  right: var(--ds-status-end-margin);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-status-item-gap);
+}
+
+.status-pointer {
+  width: var(--ds-status-pointer-width);
+  height: var(--ds-status-pointer-height);
+}
+
+.status-wifi {
+  width: var(--ds-status-wifi-width);
+  height: var(--ds-status-wifi-height);
+}
+
+.status-time,
+.status-date {
+  font-size: var(--ds-status-text-size);
+  font-weight: 400;
+  line-height: var(--line-ratio);
+  white-space: nowrap;
+  /* DesignSpec.STATUS_TEXT_NUDGE: the reference font sits 3 ref-px lower than Roboto. */
+  position: relative;
+  top: 3px;
+}
+
+/* The reference leaves a slightly wider gap before the date than between the icons. */
+.status-date {
+  margin-left: 6px;
+}
+
+/* ------------------------------------------------------------------ app cards */
+
+.card-row {
+  position: absolute;
+  top: var(--ds-card-row-top);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--ds-card-gap);
+}
+
+.card-slot {
+  position: relative;
+  width: var(--ds-card-width);
+  height: calc(var(--ds-card-height) + var(--ds-reflection-height));
+}
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ds-card-width);
+  height: var(--ds-card-height);
+  border-radius: var(--ds-card-corner-radius);
+  transition: transform 160ms cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 120ms linear;
+}
+
+.card.focused {
+  transform: scale(var(--ds-card-focus-scale));
+  box-shadow: 0 0 0 var(--ds-focus-ring-width) #ffffff, 0 12px 26px rgba(0, 0, 24, 0.45);
+  z-index: 2;
+}
+
+.card-icon-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ds-card-icon-size);
+  height: var(--ds-card-icon-size);
+  transform: translate(-50%, -50%) translateY(var(--ds-card-icon-offset-y));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-icon {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--ds-card-label-bottom-margin);
+  font-size: var(--ds-card-label-size);
+  line-height: var(--line-ratio);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------------ reflection */
+
+.card-reflection {
+  position: absolute;
+  /* The reflection hangs directly below the card, not below the slot that reserves room for it. */
+  top: var(--ds-card-height);
+  left: 0;
+  width: 100%;
+  height: var(--ds-reflection-height);
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--ds-reflection-alpha)),
+    rgba(0, 0, 0, 0)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--ds-reflection-alpha)),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.card-reflection .card {
+  bottom: 100%;
+  top: auto;
+  transform-origin: bottom center;
+  transform: scaleY(-1);
+  transition: none;
+}
+
+/* ------------------------------------------------------------------ dock */
+
+.dock-row {
+  position: absolute;
+  top: var(--ds-dock-row-top);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--ds-dock-item-gap);
+}
+
+.dock-item {
+  position: relative;
+  width: var(--ds-dock-item-width);
+  height: var(--ds-dock-item-height);
+  border-radius: var(--ds-dock-item-radius);
+  background: var(--dock-plate);
+  border: var(--ds-dock-border-width) solid var(--dock-border);
+  transition: transform 170ms cubic-bezier(0.34, 1.4, 0.64, 1), border-color 120ms linear,
+    box-shadow 120ms linear;
+}
+
+/* Caption strip that carries the label. */
+.dock-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--ds-dock-item-height) * var(--ds-dock-caption-ratio));
+  background: var(--dock-caption);
+  border-radius: 0 0 calc(var(--ds-dock-item-radius) - 1px) calc(var(--ds-dock-item-radius) - 1px);
+}
+
+/* One pixel highlight on top of the caption strip, as in the reference. */
+.dock-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--ds-dock-item-height) * var(--ds-dock-caption-ratio));
+  height: 1px;
+  background: var(--dock-caption-edge);
+  z-index: 2;
+}
+
+.dock-item.focused {
+  transform: scale(var(--ds-dock-focus-scale));
+  border-color: #ffffff;
+  border-width: var(--ds-focus-ring-width);
+  box-shadow: 0 8px 22px rgba(0, 0, 24, 0.55);
+  z-index: 3;
+}
+
+.dock-icon-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: calc(var(--ds-dock-item-height) * var(--ds-dock-caption-ratio));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dock-icon {
+  height: var(--ds-dock-icon-height);
+}
+
+.dock-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--ds-dock-item-height) * var(--ds-dock-caption-ratio));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--ds-dock-label-size);
+  line-height: var(--line-ratio);
+  color: var(--dock-label-color);
+  z-index: 3;
+}
+
+/* ------------------------------------------------------------------ app drawer */
+
+.drawer {
+  position: absolute;
+  inset: 0;
+  /* Above the cards and dock, which use z-index for their focus rings. */
+  z-index: 10;
+  background: var(--ds-drawer-scrim-color);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms linear;
+}
+
+.drawer.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer-header {
+  position: absolute;
+  top: var(--ds-drawer-title-top);
+  left: var(--ds-drawer-horizontal-padding);
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.drawer-title {
+  font-size: var(--ds-drawer-title-size);
+  font-weight: 500;
+  line-height: var(--line-ratio);
+}
+
+.drawer-count {
+  font-size: var(--ds-drawer-hint-size);
+  line-height: var(--line-ratio);
+  opacity: 0.9;
+}
+
+.drawer-grid {
+  position: absolute;
+  top: var(--ds-drawer-top);
+  left: var(--ds-drawer-horizontal-padding);
+  right: var(--ds-drawer-horizontal-padding);
+  display: grid;
+  grid-template-columns: repeat(var(--ds-drawer-grid-columns), var(--ds-drawer-grid-item-width));
+  justify-content: start;
+  align-content: start;
+}
+
+.grid-item {
+  width: var(--ds-drawer-grid-item-width);
+  height: var(--ds-drawer-grid-item-height);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 150ms cubic-bezier(0.34, 1.4, 0.64, 1), background-color 120ms linear;
+}
+
+.grid-item.focused {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 var(--ds-focus-ring-width) #ffffff;
+  transform: scale(1.1);
+}
+
+.grid-icon {
+  width: var(--ds-drawer-grid-icon-size);
+  height: var(--ds-drawer-grid-icon-size);
+  /* Brand marks are not square: keep their aspect ratio inside the icon box. */
+  object-fit: contain;
+}
+
+.grid-label {
+  max-width: 100%;
+  font-size: var(--ds-drawer-grid-label-size);
+  line-height: var(--line-ratio);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-hint {
+  position: absolute;
+  bottom: var(--ds-drawer-hint-bottom);
+  left: var(--ds-drawer-horizontal-padding);
+  font-size: var(--ds-drawer-hint-size);
+  line-height: var(--line-ratio);
+  opacity: 0.72;
+}
+
+/* ------------------------------------------------------------------ launch feedback */
+
+.screen.launching .card-row,
+.screen.launching .dock-row {
+  transform: scale(1.04);
+  opacity: 0;
+  transition: transform 260ms ease, opacity 260ms ease;
+}
+
+.launch-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.screen.launching .launch-flash {
+  animation: launch-flash 520ms ease-out forwards;
+}
+
+@keyframes launch-flash {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}

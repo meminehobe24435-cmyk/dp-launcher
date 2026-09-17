@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Miracast / screen mirroring: a phone casting to a display, with the two wireless arcs that
+  radiate from the display corner. Traced from the reference screenshot.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="70dp"
+    android:height="64dp"
+    android:viewportWidth="70"
+    android:viewportHeight="64">
+    <path
+        android:pathData="M25,8 H60 A3,3 0 0 1 63,11 V40 A3,3 0 0 1 60,43 H44"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M45,56 A21,21 0 0 0 24,35"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M45,45 A10,10 0 0 0 35,35"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M9,20 H19 A3,3 0 0 1 22,23 V53 A3,3 0 0 1 19,56 H9 A3,3 0 0 1 6,53 V23 A3,3 0 0 1 9,20 Z"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineJoin="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M11,26 H17"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+    <path
+        android:pathData="M11,49 H13 M17,49 H19"
+        android:strokeColor="#C8F6FF"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+</vector>
