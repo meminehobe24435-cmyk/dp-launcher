@@ -173,7 +173,6 @@ Chrome/Edge。
 ## 7. 素材与授权
 
 - 代码：MIT（见 [`LICENSE`](LICENSE)）。
-- `preview/assets/*.svg`：Netflix / YouTube / Google Play / Chrome 标识是**按参考图重绘的示意图**，
-  仅用于本 demo 的视觉对照，商标归各自公司所有，请勿商用。
-- `_ref/reference.png`：需求方提供的参考截图，用于像素比对。
-- Roboto 字体（`preview/assets/fonts`）：Apache-2.0，来自 Google Fonts。
+- 第三方素材（Roboto 字体、按参考图重绘的品牌示意图、参考截图）与商标声明：
+  见 [`THIRD-PARTY.md`](THIRD-PARTY.md)。
+- 正式 App（`app/`）里**不含任何品牌素材**：应用图标一律在运行时从 `PackageManager` 读取。
