@@ -46,7 +46,10 @@
 ```bash
 # 编译 debug 包
 ./gradlew :app:assembleDebug
-# 产物：app/build/outputs/apk/debug/app-debug.apk（约 4.0 MB）
+# 产物：app/build/outputs/apk/debug/app-debug.apk（约 4.2 MB）
+
+# 单元测试（几何自检：行宽/留白/不重叠）
+./gradlew :app:testDebugUnitTest
 
 # 安装到投影仪/盒子（USB 调试打开后）
 adb install -r app/build/outputs/apk/debug/app-debug.apk
@@ -140,6 +143,7 @@ app/src/main/java/com/dp/launcher/
 python tools/export_tokens.py     # 从 DesignSpec.kt 生成预览用 CSS 变量
 python tools/compare.py           # 渲染 HTML 预览并与参考图比对，产出 preview/out/*
 python tools/geometry_report.py   # 两图边缘坐标逐项对照
+./gradlew :app:testDebugUnitTest  # 几何自检测试
 npm install && node tools/capture_video.mjs   # 录制演示帧
 python tools/make_video.py        # 合成 demo/launcher-demo.gif|webp
 ```
