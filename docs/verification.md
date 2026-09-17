@@ -46,10 +46,10 @@ python tools/make_video.py           # 合成动图
 ## 本次复验结果
 
 ```
-overall  MAE=12.37  pixels within tolerance= 78.1%
-clean (below the reviewer's annotation, y>=146)  MAE= 9.26  within tolerance= 83.6%
-  status bar   MAE=32.20  within tolerance= 49.9%
-  card row     MAE=12.13  within tolerance= 79.0%
+overall  MAE=12.43  pixels within tolerance= 78.0%
+clean (below the reviewer's annotation, y>=146)  MAE= 9.33  within tolerance= 83.5%
+  status bar   MAE=32.29  within tolerance= 49.9%
+  card row     MAE=12.26  within tolerance= 78.8%
   dock row     MAE=13.72  within tolerance= 74.6%
   wallpaper    MAE= 0.41  within tolerance= 98.8%
 ```

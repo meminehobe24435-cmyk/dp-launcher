@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 121" width="66" height="121">
-  <!-- Netflix mark: two full-height legs plus the mid diagonal, in both of its reds. -->
+  <!--
+    Netflix mark: the two full-height legs plus the diagonal ribbon that runs from the top-left
+    corner to the bottom-right one, in both of its reds.
+    Geometry measured from the reference screenshot (66 x 121 in the card's icon box).
+  -->
   <path fill="#E50914" d="M0 0h22v121H0z"/>
   <path fill="#E50914" d="M44 0h22v121H44z"/>
-  <path fill="#E50914" d="M12 0h12L12 121H0z"/>
-  <path fill="#B1060F" d="M24 0h20L32 121H12z"/>
+  <!-- Bright half of the ribbon. -->
+  <path fill="#E50914" d="M0 0h11L55 121H44z"/>
+  <!-- Shaded half of the ribbon. -->
+  <path fill="#B1060F" d="M11 0h11L66 121H55z"/>
 </svg>
