@@ -1,9 +1,13 @@
 # 安装与打不开的排查（手机 / 投影仪通用）
 
+> 本版本已在 **Android 11 / 1280×720 / density 1.0** 的设备上跑通完整流程
+> （安装 → 启动 → 遥控器导航 → 打开应用列表 → 设为系统桌面），7 项自动检查全部通过。
+> 复现命令：`python tools/verify_on_device.py`
+
 ## 0. 装哪个文件
 
 ```
-dist/DP-Launcher-v1.0.0.apk      ← 直接装这个（约 3.9 MB）
+dist/DP-Launcher-v1.0.0.apk      ← 直接装这个（约 4.0 MB）
 ```
 
 包名 `com.dp.launcher`，minSdk 23（Android 6.0 及以上），targetSdk 34。
@@ -39,7 +43,15 @@ v1.0.0 起 APK 里同时声明了 `LAUNCHER` 图标，装在手机/投影仪上�
 | 1 | 状态栏初始化 | 给 `LinearLayout` 的子 View 塞了 `ViewGroup.LayoutParams`，又强转成 `MarginLayoutParams` → `ClassCastException` | 改用 `LinearLayout.LayoutParams` |
 | 2 | 时钟刷新 | `DateFormat.is24HourFormat(null)`，框架内部 `context.getUserId()` → `NullPointerException` | `StatusClock` 持有 application context |
 
-修复后 `./gradlew :app:testDebugUnitTest` 8 项测试全部通过（3 项 Robolectric 真布局冒烟 + 5 项几何自检）。
+另外真机跑起来后还修了 3 个问题（详见 `CHANGELOG.md`）：
+找不到图标（补 `LAUNCHER` intent-filter）、
+"任意焦点跳应用列表"只有 My Apps 键生效（容器上的 `setOnKeyListener` 在子 View 有焦点时不会被调用，
+改为在 Activity 的 `onKeyDown` 处理）、
+焦点会掉到根布局（去掉根布局的 `focusable`）。
+
+修复后 `./gradlew :app:testDebugUnitTest` 10 项测试全部通过
+（5 项 Robolectric 真布局冒烟 + 5 项几何自检），并在真机上通过了
+`tools/verify_on_device.py` 的 7 项端到端检查。
 
 ## 4. 如果再遇到闪退
 

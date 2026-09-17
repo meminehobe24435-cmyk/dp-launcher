@@ -75,7 +75,6 @@ class HomeFragment : Fragment() {
         setupStatusBar()
         setupAppRow()
         setupDockRow()
-        setupEdgeNavigation()
         observeApps()
     }
 
@@ -209,52 +208,41 @@ class HomeFragment : Fragment() {
     }
 
     /**
-     * Edge navigation. The MENU key is handled on the root so it works from *any* focus
-     * position, which is exactly what the reference asks for ("任意焦点可以跳转到全部已安装
-     * APPLIST 里面").
+     * Handles the keys that no view consumed.
+     *
+     * These gestures cannot be implemented with `setOnKeyListener` on the rows: Android only
+     * calls a *container's* key listener when the container itself is focused, and here the focus
+     * always sits on a card or a dock button. Unconsumed keys bubble up to the activity, which is
+     * where "any focus position can jump into the all-apps list" is actually implemented.
      */
-    private fun setupEdgeNavigation() {
-        val viewBinding = binding ?: return
-        viewBinding.appRow.setOnKeyListener { _, keyCode, event ->
-            if (event.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
-            when (keyCode) {
-                KeyEvent.KEYCODE_DPAD_DOWN -> {
-                    moveFocusFromCardsToDock()
-                    true
-                }
-
-                KeyEvent.KEYCODE_DPAD_UP -> {
-                    openAppDrawer(viewBinding.appRow)
-                    true
-                }
-
-                else -> false
-            }
-        }
-        viewBinding.dockRow.setOnKeyListener { _, keyCode, event ->
-            if (event.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
-            when (keyCode) {
-                KeyEvent.KEYCODE_DPAD_DOWN -> {
-                    openAppDrawer(viewBinding.dockRow)
-                    true
-                }
-
-                KeyEvent.KEYCODE_DPAD_UP -> {
-                    moveFocusFromDockToCards()
-                    true
-                }
-
-                else -> false
-            }
-        }
-        viewBinding.root.setOnKeyListener { _, keyCode, event ->
-            if (event.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
-            if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_INFO) {
+    fun handleUnconsumedKey(keyCode: Int): Boolean {
+        val viewBinding = binding ?: return false
+        return when (keyCode) {
+            KeyEvent.KEYCODE_MENU, KeyEvent.KEYCODE_INFO -> {
                 openAppDrawer(viewBinding.root)
                 true
-            } else {
-                false
             }
+
+            // DOWN below the dock and UP above the cards have nowhere left to go.
+            KeyEvent.KEYCODE_DPAD_DOWN -> {
+                if (viewBinding.dockRow.findFocus() != null) {
+                    openAppDrawer(viewBinding.dockRow)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            KeyEvent.KEYCODE_DPAD_UP -> {
+                if (viewBinding.appRow.findFocus() != null) {
+                    openAppDrawer(viewBinding.appRow)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            else -> false
         }
     }
 
@@ -337,18 +325,6 @@ class HomeFragment : Fragment() {
                 cardAdapter.focusCard(lastCardIndex)
             }
         }
-    }
-
-    private fun moveFocusFromCardsToDock() {
-        val viewBinding = binding ?: return
-        lastCardIndex = focusedPosition(viewBinding.appRow, lastCardIndex)
-        dockAdapter.focusItem(lastCardIndex)
-    }
-
-    private fun moveFocusFromDockToCards() {
-        val viewBinding = binding ?: return
-        lastDockIndex = focusedPosition(viewBinding.dockRow, lastDockIndex)
-        cardAdapter.focusCard(lastDockIndex)
     }
 
     private fun focusedPosition(row: RecyclerView, fallback: Int): Int {

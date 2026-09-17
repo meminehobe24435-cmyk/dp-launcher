@@ -34,8 +34,14 @@
 
 ![demo](demo/launcher-demo.gif)
 
-> `demo/launcher-demo.gif`（720×405，2.7 MB）与 `demo/launcher-demo.webp`（960×540，0.6 MB）都是
-> `tools/` 里的脚本自动生成的，不是手工剪辑。
+**真机效果**（Android 11，1280×720 / density 1.0，实装应用的真实图标与自动提取的卡片底色）：
+
+| 真机首页 | 真机应用列表 |
+|---|---|
+| ![android home](demo/android-home.png) | ![android drawer](demo/android-drawer.png) |
+
+> `demo/launcher-demo.gif`（720×405，2.3 MB）与 `demo/launcher-demo.webp`（960×540，0.5 MB）都是
+> `tools/` 里的脚本自动生成的，不是手工剪辑；真机截图由 `tools/verify_on_device.py` 自动抓取。
 
 ---
 

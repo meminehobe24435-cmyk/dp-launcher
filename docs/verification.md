@@ -20,6 +20,7 @@
 | `tools/calibrate.py` | 参数拟合：按候选几何渲染并选误差最小的组合 |
 | `tools/capture_video.mjs` | 用 Chrome DevTools screencast 录制演示帧（puppeteer-core） |
 | `tools/make_video.py` | 帧序列 → `demo/launcher-demo.gif` / `.webp` |
+| `tools/verify_on_device.py` | **真机/模拟器端到端验证**：安装→启动→按 D-pad 走完整流程→抓截图→查崩溃→设为桌面 |
 
 ## 复现步骤
 
@@ -31,7 +32,45 @@ python tools/calibrate.py stage1     # 复现卡片宽/间距的拟合（约 30 
 npm install
 node tools/capture_video.mjs         # 录制演示帧（需要本机 Chrome/Edge）
 python tools/make_video.py           # 合成动图
+
+# 真机 / 模拟器端到端验证（需要一台已连接的设备）
+./gradlew :app:assembleDebug
+python tools/verify_on_device.py --apk app/build/outputs/apk/debug/app-debug.apk
 ```
+
+## 真机验证结果
+
+在 Android 11 模拟器（1280×720、density 160，即参考图同规格画布）上实测：
+
+```
+device: emulator-5554
+-- launch            focused view: [122,134][372,490]    第一个卡片获得焦点
+-- navigate          focused view: [903,506][1137,649]   ↓ 进入底部栏 → → → → 到 Settings
+-- DOWN on the dock  focused view: [71,88][275,272]      打开应用列表，首格获得焦点
+-- UP on first row   focused view: [903,506][1137,649]   关闭列表并把焦点还原到 Settings
+-- MENU              focused view: [71,88][275,272]      MENU 同样能打开应用列表
+   [PASS] app launched without a crash
+   [PASS] first card focused on start
+   [PASS] dock reachable with DOWN
+   [PASS] DOWN on the dock opens the app list
+   [PASS] UP restores the focus
+   [PASS] MENU opens the app list
+   [PASS] accepted as the home activity
+```
+
+布局对照（真机截图 vs 参考图，同一套边缘检测）：
+
+| 指标 | 参考图 | 真机 | delta |
+|---|---|---|---|
+| 卡片1 左边缘 | 121.8 | 121.5 | −0.3 |
+| 底部键 左边缘 | 119.2 | 119.5 | +0.3 |
+| 底部键 上边缘 | 515.4 | 516.0 | +0.5 |
+| 底部键 下边缘 | 637.1 | 638.1 | +0.9 |
+
+真机首页的整体像素误差不能直接和参考图比：真机上装的是系统自带应用（Calendar / Camera /
+Clock / Contacts），卡片底色是**从这些图标自动提取**的，与参考图里的四个品牌应用本就不同；
+可比的是几何（上表，≤1 px）、壁纸（MAE 0.41）、底部功能栏（MAE 27，差异集中在图标手绘细节
+与参考图的压缩模糊）。
 
 `preview/out/` 下的产物：
 

@@ -2,6 +2,7 @@ package com.dp.launcher
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.addCallback
@@ -60,6 +61,24 @@ class LauncherActivity : AppCompatActivity(), LauncherNavigator {
         super.onNewIntent(intent)
         // Pressing HOME while the drawer is open returns to the home screen.
         if (drawerFragment != null) closeAppDrawer()
+    }
+
+    /**
+     * Receives every key the view hierarchy did not consume.
+     *
+     * This is where "any focus position can jump into the installed-app list" is implemented:
+     * a container's `setOnKeyListener` is not called while one of its children holds the focus,
+     * so MENU, UP above the cards and DOWN below the dock all end up here instead.
+     */
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        val drawer = drawerFragment
+        if (drawer != null) {
+            if (drawer.handleUnconsumedKey(keyCode)) return true
+        } else {
+            val home = homeFragment
+            if (home != null && home.handleUnconsumedKey(keyCode)) return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun openAppDrawer(source: View) {

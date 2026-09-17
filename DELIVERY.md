@@ -19,15 +19,17 @@
 | 交付物 | 路径 | 说明 |
 |---|---|---|
 | Android 源码工程 | `D:\23178\DP-Launcher` | Kotlin + XML + RecyclerView，可直接 `gradlew assembleDebug` |
-| **安装包（传手机用这个）** | `dist\DP-Launcher-v1.0.0.apk` | 3.9 MB，minSdk 23 / targetSdk 34，含普通应用图标（可直接点开） |
+| **安装包（传手机用这个）** | `dist\DP-Launcher-v1.0.0.apk` | 4.0 MB，minSdk 23 / targetSdk 34，含普通应用图标（可直接点开） |
 | 安装排查指南 | `docs\install.md` | 传输被改名、"解析包出错"、闪退等按现象排查 |
-| 变更记录 | `CHANGELOG.md` | v1.0.0 修复的两个真机闪退 + LAUNCHER 图标 |
+| 变更记录 | `CHANGELOG.md` | v1.0.0 修复的 5 个真机问题 |
+| 真机验证脚本 | `tools\verify_on_device.py` | 自动安装 → 导航 → 截图 → 查崩溃 → 设为桌面，7 项检查 |
 | 演示动图 | `demo/launcher-demo.gif`（720p，2.3 MB）<br>`demo/launcher-demo.webp`（960×540，0.5 MB） | 自动录制，含焦点移动 → 跳应用列表 → 打开应用 |
-| 演示静帧 | `demo/home.png`、`demo/drawer.png` | 首页 / 全部应用列表 |
+| 演示静帧（预览渲染） | `demo/home.png`、`demo/drawer.png` | 1:1 HTML 预览的渲染结果 |
+| 演示静帧（真机） | `demo/android-home.png`、`demo/android-drawer.png` | Android 11 / 1280×720 实机截图 |
 | 1:1 预览页 | `preview/index.html` | 浏览器直接打开，方向键即可操作（与 APK 同一套尺寸常量） |
 | 像素比对报告 | `preview/out/side_by_side.png`、`diff.png` | 与参考图的对照与差分热力图 |
 | 设计规格 | `docs/design-spec.md` | 每个数值的来源（量测 or 拟合） |
-| 复验方法 | `docs/verification.md` | 复现命令 + 本次结果数字 |
+| 复验方法 | `docs/verification.md` | 复现命令 + 预览与真机两套结果 |
 | 工程说明 | `README.md` | 需求对照表、架构、编译安装、厂商适配 |
 
 ## 3. 四条要求的完成情况
@@ -66,13 +68,16 @@ git push -u origin main
 
 ## 6. 修复记录（真机反馈）
 
-首版 APK 在真机上**启动即闪退**，两个必崩点已修，并补了 Robolectric 冒烟测试防回归：
+首版 APK 在真机上**启动即闪退、且找不到入口**，后续实机运行又发现 3 个交互问题，全部已修：
 
-| # | 崩溃点 | 原因 |
+| # | 现象 | 原因 |
 |---|---|---|
-| 1 | 状态栏初始化 | `LinearLayout` 子 View 用了 `ViewGroup.LayoutParams` 后强转 `MarginLayoutParams` → `ClassCastException` |
-| 2 | 时钟刷新 | `DateFormat.is24HourFormat(null)` → 框架内 `NullPointerException` |
-| 3 | 找不到图标 | 只声明了 `HOME`，应用列表里没有入口 → 补 `LAUNCHER` intent-filter |
+| 1 | 启动闪退 | `LinearLayout` 子 View 用了 `ViewGroup.LayoutParams` 后强转 `MarginLayoutParams` → `ClassCastException` |
+| 2 | 启动闪退 | `DateFormat.is24HourFormat(null)` → 框架内 `NullPointerException` |
+| 3 | 应用列表里找不到、点不开 | 只声明了 `HOME` → 补 `LAUNCHER` intent-filter |
+| 4 | "任意焦点跳应用列表"只有 My Apps 键生效 | 容器上的 `setOnKeyListener` 在子 View 持有焦点时不会被调用 → 改到 Activity 的 `onKeyDown` |
+| 5 | 焦点会掉到整屏根布局（焦点框消失） | 根布局 `focusable="true"`，焦点搜索无候选时落到它身上 → 去掉 |
 
-现在 `./gradlew :app:testDebugUnitTest` 会真实启动 Activity、inflate 真实布局并强制
-measure/layout，这三点都会在 CI 阶段被拦住。
+现在有两层防回归：
+`./gradlew :app:testDebugUnitTest`（10 项：Robolectric 真启动 + 真布局 measure/layout + 按键路由）
+和 `python tools/verify_on_device.py`（真机 7 项端到端检查，含"可被设为系统桌面"）。

@@ -146,6 +146,9 @@ object DesignSpec {
      * App drawer background: the same wallpaper blue as the home screen, fully opaque, so the
      * grid keeps maximum contrast on a projector. The drawer fades in over the home screen, which
      * still reads as "on top of" the launcher.
+     *
+     * Mirrors `res/values/colors.xml#drawer_scrim` - the layout needs it as a colour resource,
+     * the preview build reads it from here.
      */
     const val DRAWER_SCRIM_COLOR = 0xFF0200FB.toInt()
 

@@ -62,7 +62,6 @@ class AppDrawerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ui = UiScale(requireContext())
         setupGrid()
-        setupKeys()
         observeApps()
         playEntranceAnimation()
     }
@@ -111,17 +110,17 @@ class AppDrawerFragment : Fragment() {
             }
     }
 
-    private fun setupKeys() {
-        val viewBinding = binding ?: return
-        viewBinding.root.setOnKeyListener { _, keyCode, event ->
-            if (event.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
-            if (keyCode == KeyEvent.KEYCODE_DPAD_UP && isOnFirstRow()) {
-                close()
-                true
-            } else {
-                false
-            }
+    /**
+     * Handles the keys no view consumed - in practice UP on the first grid row, which has nowhere
+     * left to go and therefore closes the drawer. See [HomeFragment.handleUnconsumedKey] for why
+     * this cannot live in a key listener on the RecyclerView.
+     */
+    fun handleUnconsumedKey(keyCode: Int): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_UP && isOnFirstRow()) {
+            close()
+            return true
         }
+        return false
     }
 
     /** Fades the drawer out, then reports completion so the host can remove the fragment. */

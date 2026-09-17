@@ -8,7 +8,7 @@
     <color name="dock_label">#FFC6F5FF</color>
     <color name="status_text">#FFFFFFFF</color>
 
-    <!-- App drawer: the wallpaper stays visible, slightly darkened, behind the grid. -->
-    <color name="drawer_scrim">#E60200FB</color>
+    <!-- App drawer: the wallpaper blue, opaque, so the grid keeps full contrast. -->
+    <color name="drawer_scrim">#FF0200FB</color>
     <color name="drawer_hint">#B3FFFFFF</color>
 </resources>
