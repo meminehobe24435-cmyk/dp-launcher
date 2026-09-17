@@ -44,8 +44,20 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <!-- HOME: this is what makes the app selectable as the device launcher. -->
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!--
+              LAUNCHER as well, so the app also has a normal icon and can be opened manually
+              (phones, "open once to test" flows, ADB-free launches). Without it the app would
+              only exist as a home screen replacement.
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

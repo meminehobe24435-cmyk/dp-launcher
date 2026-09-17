@@ -16,36 +16,44 @@ import java.util.Locale
  * on `ACTION_TIME_TICK` (emitted every minute) plus on manual time/timezone changes.
  * `ACTION_TIME_TICK` cannot be declared in the manifest, so the receiver lives here and is
  * registered by the hosting view.
+ *
+ * The context is kept (application context only) because the time format depends on the user's
+ * 12/24-hour setting: `DateFormat.is24HourFormat` needs a real context and crashes on null.
  */
-class StatusClock(private val onTick: (time: String, date: String) -> Unit) : BroadcastReceiver() {
+class StatusClock(
+    context: Context,
+    private val onTick: (time: String, date: String) -> Unit,
+) : BroadcastReceiver() {
 
-    private val timeFormat = SimpleDateFormat(TIME_PATTERN, Locale.US)
+    private val appContext: Context = context.applicationContext
+
     private val dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.US)
 
     override fun onReceive(context: Context?, intent: Intent?) = emit()
 
-    fun start(context: Context) {
+    /** Registers the tick receiver and pushes the current time once. */
+    fun start() {
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_TIME_TICK)
             addAction(Intent.ACTION_TIME_CHANGED)
             addAction(Intent.ACTION_TIMEZONE_CHANGED)
             addAction(Intent.ACTION_LOCALE_CHANGED)
         }
-        context.registerReceiver(this, filter)
+        appContext.registerReceiver(this, filter)
         emit()
     }
 
-    fun stop(context: Context) {
-        runCatching { context.unregisterReceiver(this) }
+    /** Unregisters the receiver. Safe to call when [start] was never called. */
+    fun stop() {
+        runCatching { appContext.unregisterReceiver(this) }
     }
 
     /** Pushes the current time to the listener. */
     fun emit() {
         val now = Date()
-        val use24Hour = DateFormat.is24HourFormat(null)
-        val timePattern = if (use24Hour) TIME_PATTERN_24H else TIME_PATTERN
+        val pattern = if (DateFormat.is24HourFormat(appContext)) TIME_PATTERN_24H else TIME_PATTERN
         onTick(
-            SimpleDateFormat(timePattern, Locale.US).format(now),
+            SimpleDateFormat(pattern, Locale.US).format(now),
             dateFormat.format(now),
         )
     }

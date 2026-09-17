@@ -46,18 +46,22 @@
 ```bash
 # 编译 debug 包
 ./gradlew :app:assembleDebug
-# 产物：app/build/outputs/apk/debug/app-debug.apk（约 4.2 MB）
+# 产物：app/build/outputs/apk/debug/app-debug.apk（约 4.0 MB），
+# 同时会同步一份到 dist/DP-Launcher-v1.0.0.apk 方便传输
 
-# 单元测试（几何自检：行宽/留白/不重叠）
+# 单元测试（Robolectric 真布局冒烟 + 几何自检，共 8 项）
 ./gradlew :app:testDebugUnitTest
 
 # 安装到投影仪/盒子（USB 调试打开后）
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb install -r dist/DP-Launcher-v1.0.0.apk
 adb shell am start -n com.dp.launcher/.LauncherActivity
 ```
 
+装到**手机**上发现问题（传文件被改名、装不上、点开闪退）看
+[`docs/install.md`](docs/install.md)，里面按现象给了排查表。
+
 想让系统开机默认进这个桌面，装好后在 `设置 → 应用 → 默认应用 → 主屏幕应用` 里选 **DP Launcher**
-（Manifest 已声明 `android.intent.category.HOME`，即标准 Launcher）。
+（Manifest 同时声明了 `HOME` 和 `LAUNCHER`：既能被设为桌面，也能像普通 App 一样点开）。
 
 主要技术参数：`minSdk 23 (Android 6.0)` / `targetSdk 34` / Kotlin 2.0.21 / AGP 8.7.3 / Gradle 8.13。
 

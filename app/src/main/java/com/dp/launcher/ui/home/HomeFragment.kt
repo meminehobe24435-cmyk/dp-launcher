@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -80,12 +81,12 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        clock = StatusClock { time, date ->
+        clock = StatusClock(requireContext()) { time, date ->
             binding?.let {
                 it.statusTime.text = time
                 it.statusDate.text = date
             }
-        }.also { it.start(requireContext()) }
+        }.also { it.start() }
 
         networkMonitor = NetworkStatusMonitor(requireContext()) { connected, level, _ ->
             binding?.statusWifi?.setImageResource(wifiIconFor(connected, level))
@@ -99,7 +100,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onStop() {
-        clock?.stop(requireContext())
+        clock?.stop()
         clock = null
         networkMonitor?.stop()
         networkMonitor = null
@@ -118,30 +119,37 @@ class HomeFragment : Fragment() {
     private fun setupStatusBar() {
         val viewBinding = binding ?: return
         val barHeight = ui.pxInt(STATUS_BAR_HEIGHT)
-        viewBinding.statusBar.layoutParams = (viewBinding.statusBar.layoutParams as ViewGroup.MarginLayoutParams).apply {
+        val gap = ui.pxInt(DesignSpec.STATUS_ITEM_GAP)
+
+        // The bar is a LinearLayout, so its own params come from the ConstraintLayout and its
+        // children need LinearLayout.LayoutParams - anything else makes the parent throw while
+        // measuring (and took the whole launcher down on the first frame).
+        (viewBinding.statusBar.layoutParams as? ViewGroup.MarginLayoutParams)?.apply {
             height = barHeight
             topMargin = ui.pxInt(DesignSpec.STATUS_CENTER_Y) - barHeight / 2
             marginEnd = ui.pxInt(DesignSpec.STATUS_END_MARGIN)
         }
-        viewBinding.statusPointer.layoutParams = ViewGroup.LayoutParams(
+
+        viewBinding.statusPointer.layoutParams = LinearLayout.LayoutParams(
             ui.pxInt(DesignSpec.STATUS_POINTER_WIDTH),
             ui.pxInt(DesignSpec.STATUS_POINTER_HEIGHT),
-        )
-        viewBinding.statusWifi.layoutParams = ViewGroup.LayoutParams(
+        ).apply { marginEnd = gap }
+
+        viewBinding.statusWifi.layoutParams = LinearLayout.LayoutParams(
             ui.pxInt(DesignSpec.STATUS_WIFI_WIDTH),
             ui.pxInt(DesignSpec.STATUS_WIFI_HEIGHT),
-        )
+        ).apply { marginEnd = gap }
+
         ui.applyTextSize(viewBinding.statusTime, DesignSpec.STATUS_TEXT_SIZE)
         ui.applyTextSize(viewBinding.statusDate, DesignSpec.STATUS_TEXT_SIZE)
+        (viewBinding.statusTime.layoutParams as? LinearLayout.LayoutParams)?.marginEnd = gap
+        (viewBinding.statusDate.layoutParams as? LinearLayout.LayoutParams)?.marginStart =
+            ui.pxInt(DesignSpec.STATUS_DATE_MARGIN)
+
         // See DesignSpec.STATUS_TEXT_NUDGE: the reference font metrics sit 3 ref-px lower.
         val nudge = ui.pxInt(DesignSpec.STATUS_TEXT_NUDGE)
         viewBinding.statusTime.setPadding(0, nudge, 0, 0)
         viewBinding.statusDate.setPadding(0, nudge, 0, 0)
-
-        val gap = ui.pxInt(DesignSpec.STATUS_ITEM_GAP)
-        listOf(viewBinding.statusPointer, viewBinding.statusWifi, viewBinding.statusTime).forEach { item ->
-            (item.layoutParams as ViewGroup.MarginLayoutParams).marginEnd = gap
-        }
     }
 
     private fun setupAppRow() {

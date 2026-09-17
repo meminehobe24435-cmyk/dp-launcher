@@ -31,6 +31,9 @@ object DesignSpec {
     /** Gap between two status bar items. */
     const val STATUS_ITEM_GAP = 16f
 
+    /** Extra gap before the date, so the clock is not glued to it. */
+    const val STATUS_DATE_MARGIN = 6f
+
     /** Height of the status bar icons (wifi / input device). */
     const val STATUS_ICON_HEIGHT = 20f
 

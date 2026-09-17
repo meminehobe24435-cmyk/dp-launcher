@@ -45,6 +45,13 @@ android {
         viewBinding = true
     }
 
+    testOptions {
+        unitTests {
+            // Robolectric needs the merged resources to inflate the real layouts.
+            isIncludeAndroidResources = true
+        }
+    }
+
     lint {
         abortOnError = false
         checkReleaseBuilds = false
@@ -62,4 +69,7 @@ dependencies {
     implementation("androidx.palette:palette-ktx:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
+    // Runs the real activity, fragments and layouts on the JVM: catches the crashes that only
+    // appear once a view hierarchy is actually inflated and measured.
+    testImplementation("org.robolectric:robolectric:4.14.1")
 }

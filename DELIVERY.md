@@ -19,8 +19,10 @@
 | 交付物 | 路径 | 说明 |
 |---|---|---|
 | Android 源码工程 | `D:\23178\DP-Launcher` | Kotlin + XML + RecyclerView，可直接 `gradlew assembleDebug` |
-| 已编译 APK | `app/build/outputs/apk/debug/app-debug.apk` | 4.0 MB，minSdk 23 / targetSdk 34 |
-| 演示动图 | `demo/launcher-demo.gif`（720p，2.5 MB）<br>`demo/launcher-demo.webp`（960×540，0.6 MB） | 自动录制，含焦点移动 → 跳应用列表 → 打开应用 |
+| **安装包（传手机用这个）** | `dist\DP-Launcher-v1.0.0.apk` | 3.9 MB，minSdk 23 / targetSdk 34，含普通应用图标（可直接点开） |
+| 安装排查指南 | `docs\install.md` | 传输被改名、"解析包出错"、闪退等按现象排查 |
+| 变更记录 | `CHANGELOG.md` | v1.0.0 修复的两个真机闪退 + LAUNCHER 图标 |
+| 演示动图 | `demo/launcher-demo.gif`（720p，2.3 MB）<br>`demo/launcher-demo.webp`（960×540，0.5 MB） | 自动录制，含焦点移动 → 跳应用列表 → 打开应用 |
 | 演示静帧 | `demo/home.png`、`demo/drawer.png` | 首页 / 全部应用列表 |
 | 1:1 预览页 | `preview/index.html` | 浏览器直接打开，方向键即可操作（与 APK 同一套尺寸常量） |
 | 像素比对报告 | `preview/out/side_by_side.png`、`diff.png` | 与参考图的对照与差分热力图 |
@@ -61,3 +63,16 @@ git push -u origin main
 2. **卡片行放哪些应用**：参考图是 Netflix / YouTube / Google Play / chrome 四个，
    目前用 `arrays.xml` 的 `featured_packages` 按包名固定；如果希望改成"最近使用"或
    "按安装顺序"，告诉我改哪种策略。
+
+## 6. 修复记录（真机反馈）
+
+首版 APK 在真机上**启动即闪退**，两个必崩点已修，并补了 Robolectric 冒烟测试防回归：
+
+| # | 崩溃点 | 原因 |
+|---|---|---|
+| 1 | 状态栏初始化 | `LinearLayout` 子 View 用了 `ViewGroup.LayoutParams` 后强转 `MarginLayoutParams` → `ClassCastException` |
+| 2 | 时钟刷新 | `DateFormat.is24HourFormat(null)` → 框架内 `NullPointerException` |
+| 3 | 找不到图标 | 只声明了 `HOME`，应用列表里没有入口 → 补 `LAUNCHER` intent-filter |
+
+现在 `./gradlew :app:testDebugUnitTest` 会真实启动 Activity、inflate 真实布局并强制
+measure/layout，这三点都会在 CI 阶段被拦住。

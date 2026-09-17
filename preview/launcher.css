@@ -102,7 +102,7 @@ body {
 
 /* The reference leaves a slightly wider gap before the date than between the icons. */
 .status-date {
-  margin-left: 6px;
+  margin-left: var(--ds-status-date-margin);
 }
 
 /* ------------------------------------------------------------------ app cards */
