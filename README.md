@@ -1,7 +1,14 @@
 # DP Launcher
 
+[![platform](https://img.shields.io/badge/platform-Android%206.0%2B-3ddc84?logo=android&logoColor=white)](https://github.com/meminehobe24435-cmyk/dp-launcher)
+[![language](https://img.shields.io/badge/Kotlin-2.0-7f52ff?logo=kotlin&logoColor=white)](https://github.com/meminehobe24435-cmyk/dp-launcher)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![pixel match](https://img.shields.io/badge/pixel%20match-MAE%209.3%2F255-orange)](docs/verification.md)
+
 投影仪 / Android TV 桌面的 **1:1 复刻**实现。原生 Android（Kotlin + XML 布局 + RecyclerView），
 不依赖任何第三方 UI 框架，可直接编译安装到设备上作为 HOME 桌面使用。
+
+仓库：<https://github.com/meminehobe24435-cmyk/dp-launcher>
 
 > 复刻目标：截图中这台投影仪的桌面（蓝色壁纸 + 4 个应用大卡 + 倒影 + 底部五个功能键）。
 > 截图来自需求方，见 [`_ref/reference.png`](_ref/reference.png)；所有尺寸/取色都由

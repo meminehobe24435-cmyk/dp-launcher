@@ -42,19 +42,26 @@
 3. **demo 质量 + 演示视频** — 见第 2 节：动图为脚本自动录制（Chrome DevTools screencast +
    PIL 合成），并给出与参考图的量化相似度：**产品区域 MAE 9.3/255，83.6% 像素在容差内**，
    主要元素边缘误差 ≤ 1.5 px。
-4. **GitHub 源码 DEMO** — 工程已按开源仓库规范整理（README / LICENSE / .gitignore /
-   工具脚本 / 文档），并已本地 `git init` 提交；推送命令见第 4 节。
+4. **GitHub 源码 DEMO** — 已上传：<https://github.com/meminehobe24435-cmyk/dp-launcher>
+   （public，含 README / LICENSE / 文档 / 工具脚本，见第 4 节）。
 
-## 4. 上传 GitHub
+## 4. GitHub 仓库
+
+**<https://github.com/meminehobe24435-cmyk/dp-launcher>**（public，默认分支 `main`）
+
+- 6 条提交记录，作者已设为你的 GitHub 账号（`meminehobe24435-cmyk`），会显示在贡献图里；
+- 仓库 About 已填说明，topics：`android` `kotlin` `launcher` `android-tv` `projector` `ui`；
+- 仓库内不含 token / 密钥 / 机器绝对路径；`build/`、`node_modules/`、`preview/out/`、
+  `__pycache__` 已在 `.gitignore` 中忽略；已编译的 APK 放在 `dist/` 方便直接下载。
+
+后续推改动：
 
 ```powershell
 cd D:\23178\DP-Launcher
-git remote add origin https://github.com/<你的账号>/dp-launcher.git
-git branch -M main
-git push -u origin main
+git add -A && git commit -m "你的改动说明" && git push
 ```
 
-（仓库里不含 token、密钥、绝对路径；`build/`、`node_modules/`、`preview/out/` 已在 .gitignore 中。）
+想改成私有：`gh repo edit --visibility private`（或网页端 Settings → Danger Zone）。
 
 ## 5. 还需要你确认的两点
 
